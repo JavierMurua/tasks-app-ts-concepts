@@ -25,7 +25,7 @@ export default function TaskForm() {
     >
       <input
         type="text"
-        placeholder="Nueva tarea..."
+        placeholder="New task..."
         value={title}
         onChange={handleChange}
         className="flex-grow p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-950"
@@ -34,7 +34,7 @@ export default function TaskForm() {
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
       >
-        Agregar
+        Add
       </button>
     </form>
   );

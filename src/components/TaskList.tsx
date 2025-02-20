@@ -9,7 +9,7 @@ export default function TaskList() {
   if (tasks.length === 0) {
     return (
       <p className="text-center text-gray-200 mt-8">
-        ¡No hay tareas aún! Agrega una nueva. 📋
+        No tasks yet! Add a new one. 📋
       </p>
     );
   }

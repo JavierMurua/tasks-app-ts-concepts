@@ -14,7 +14,7 @@ export default function TaskItem({ task }: TaskItemProps) {
   return (
     <div
       className={clsx(
-        "flex justify-between items-center p-4 rounded-lg bg-white shadow-md",
+        "flex justify-between items-center p-4 rounded-lg bg-white shadow-md text-gray-900",
         task.completed && "opacity-70"
       )}
     >
@@ -22,12 +22,12 @@ export default function TaskItem({ task }: TaskItemProps) {
         <h3
           className={clsx(
             "text-lg font-semibold",
-            task.completed && "text-gray-500"
+            task.completed && "text-gray-800"
           )}
         >
           {task.title}
         </h3>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-800">
           {task.createdAt.toLocaleString()}
         </p>
       </div>
@@ -37,13 +37,13 @@ export default function TaskItem({ task }: TaskItemProps) {
           className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600"
           onClick={() => toggleTask(task.id)}
         >
-          {task.completed ? "Desmarcar" : "Completar"}
+          {task.completed ? "Unmark" : "Complete"}
         </button>
         <button
           className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
           onClick={() => deleteTask(task.id)}
         >
-          Eliminar
+          Delete
         </button>
       </div>
     </div>
