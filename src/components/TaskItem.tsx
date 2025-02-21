@@ -17,7 +17,7 @@ export default function TaskItem({ task }: TaskItemProps) {
 
   const handleDelete = () => {
     setIsDeleting(true);
-    setTimeout(() => deleteTask(task.id), 300); // Retrasa la eliminación para la animación
+    setTimeout(() => deleteTask(task.id), 300);
   };
 
   const handleEdit = () => {
@@ -34,8 +34,7 @@ export default function TaskItem({ task }: TaskItemProps) {
   return (
     <div
       className={clsx(
-        "flex justify-between items-center p-4 rounded-lg bg-white shadow-md text-gray-900 transition-all duration-300",
-        "animate-fade-in",
+        "task-card animate-fade-in flex justify-between items-center",
         task.completed && "opacity-70",
         isDeleting && "scale-90 opacity-0"
       )}
@@ -46,27 +45,27 @@ export default function TaskItem({ task }: TaskItemProps) {
             type="text"
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
-            className="border rounded p-1 text-lg"
+            className="bg-gray-700 text-white px-2 py-1 rounded w-full border text-lg"
           />
         ) : (
-          <h3 className={clsx("text-lg font-semibold", task.completed && "text-gray-800 line-through")}>
+          <h3 className={clsx("text-lg font-semibold", task.completed && "text-gray-400")}>
             {task.title}
           </h3>
         )}
-        <p className="text-sm text-gray-800">{task.createdAt.toLocaleString()}</p>
+        <p className="text-sm text-gray-300">{task.createdAt.toLocaleString()}</p>
       </div>
 
       <div className="flex space-x-2">
         {isEditing ? (
           <button
-            className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+            className="button button-primary"
             onClick={handleSaveEdit}
           >
             Save
           </button>
         ) : (
           <button
-            className="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600"
+            className="button button-primary"
             onClick={handleEdit}
           >
             Edit
@@ -74,14 +73,14 @@ export default function TaskItem({ task }: TaskItemProps) {
         )}
 
         <button
-          className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600"
+          className="button button-success"
           onClick={() => toggleTask(task.id)}
         >
           {task.completed ? "Unmark" : "Complete"}
         </button>
 
         <button
-          className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+          className="button button-danger"
           onClick={handleDelete}
         >
           Delete

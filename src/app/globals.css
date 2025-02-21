@@ -2,20 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🎨 Dark Color Palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #111827; /* Modern dark blue */
+  --foreground: #e5e7eb; /* Light text */
+  --card-bg: #1f2937; /* Card background */
+  --border: #374151; /* Borders and lines */
+  --primary: #6366f1; /* Vibrant blue */
+  --danger: #ef4444; /* Soft red */
+  --success: #10b981; /* Elegant green */
 }
 
 body {
-  color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground);
+  font-family: "Inter", sans-serif;
+  @apply transition-colors duration-300;
+}
+
+/* 📝 Main container */
+.container {
+  @apply max-w-2xl mx-auto px-6 py-10;
+}
+
+/* 📋 Task card styles */
+.task-card {
+  @apply bg-[var(--card-bg)] p-4 rounded-lg shadow-lg text-white transition-all duration-300;
+}
+
+/* 🔘 General buttons */
+.button {
+  @apply px-4 py-2 rounded-md font-medium transition-all duration-300;
+}
+
+.button-primary {
+  @apply bg-[var(--primary)] text-white hover:bg-indigo-600;
+}
+
+.button-danger {
+  @apply bg-[var(--danger)] text-white hover:bg-red-600;
+}
+
+.button-success {
+  @apply bg-[var(--success)] text-white hover:bg-green-600;
+}
+
+/* 🎭 Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
 }
