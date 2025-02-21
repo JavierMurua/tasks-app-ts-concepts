@@ -11,6 +11,7 @@ type TaskContextType = {
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
   clearTasks: () => void;
+  editTask: (id: string, newTitle: string) => void;
   filter: TaskFilter;
   setFilter: (filter: TaskFilter) => void;
 };
@@ -76,6 +77,16 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     setTasks([]);
   };
 
+  const editTask = (id: string, newTitle: string) => {
+    setTasks((prev) =>
+      sortTasks(
+        prev.map((task) =>
+          task.id === id ? { ...task, title: newTitle } : task
+        )
+      )
+    );
+  };
+
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed;
     if (filter === "pending") return !task.completed;
@@ -90,6 +101,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         toggleTask,
         deleteTask,
         clearTasks,
+        editTask,
         filter,
         setFilter,
       }}
