@@ -22,7 +22,6 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<TaskFilter>("all");
 
-  // Función para ordenar tareas
   const sortTasks = (tasks: Task[]) => {
     return [...tasks].sort((a, b) => {
       if (a.completed === b.completed) {

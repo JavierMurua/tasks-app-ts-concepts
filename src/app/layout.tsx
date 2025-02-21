@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TaskProvider } from "@/context/TaskContext";
+import Header from "@/components/Header";
 
 
 
@@ -32,7 +33,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TaskProvider>{children}</TaskProvider>
+        <TaskProvider>
+          <Header />
+          {children}
+        </TaskProvider>
       </body>
     </html>
   );
