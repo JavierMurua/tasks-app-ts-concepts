@@ -6,9 +6,9 @@ import { Task, TaskFilter } from "@/types/task";
 import { v4 as uuidv4 } from "uuid";
 
 /* 📌 Use of TypeScript in Context API  
-- `TaskContextType` defines the structure of the context.  
+- TaskContextType defines the structure of the context.  
 - It allows functions and states within the context to be correctly typed.  
-- It prevents errors by ensuring that `useContext` always returns data in the expected shape. */  
+- It prevents errors by ensuring that useContext always returns data in the expected shape. */  
 type TaskContextType = {
   tasks: Task[]; // ✅ Array typing (using [])
   addTask: (title: string) => void; // ✅ Function parameter typing
@@ -20,22 +20,31 @@ type TaskContextType = {
   setFilter: (filter: TaskFilter) => void;
 };
 
-// 📌 Use of `createContext` with TypeScript  
-//    - `TaskContextType | undefined` is used to enforce validation when using `useContext`
+// 📌 Use of createContext with TypeScript  
+//    - TaskContextType | undefined is used to enforce validation when using useContext
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
+const getStoredTasks = (): Task[] => {
+  if (typeof window === "undefined") return []; // Evita errores en SSR
+  const storedTasks = localStorage.getItem("tasks");
+  if (!storedTasks) return [];
+  return JSON.parse(storedTasks, (key, value) =>
+    key === "createdAt" ? new Date(value) : value
+  );
+};
+
 // 📌 Typing props in React with TypeScript  
-//    - `{ children: ReactNode }` is used to correctly type the provider's props.  
+//    - { children: ReactNode } is used to correctly type the provider's props.
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   // 📌 Typing useState<Task[]>  
-  //    - `tasks` will always be an array of `Task`, avoiding type errors.  
-  const [tasks, setTasks] = useState<Task[]>([]);
+  //    - tasks will always be an array of Task, avoiding type errors.
+  const [tasks, setTasks] = useState<Task[]>(getStoredTasks);
     // 📌 Typing states with restricted values  
-  //    - `TaskFilter` only allows `"all" | "completed" | "pending"`, preventing invalid values.  
+  //    - TaskFilter only allows "all" | "completed" | "pending", preventing invalid values. 
   const [filter, setFilter] = useState<TaskFilter>("all");
 
   // 📌 Function to sort tasks  
-  //    - Using `sort()` on a typed array (`Task[]`).   
+  //    - Using sort() on a typed array (Task[]).   
   const sortTasks = (tasks: Task[]) => {
     return [...tasks].sort((a, b) => {
       if (a.completed === b.completed) {
@@ -45,38 +54,23 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  // 📌 Typing useEffect  
-  //    - `JSON.parse()` is used with a transformation to convert `createdAt` into Date.   
   useEffect(() => {
-    const storedTasks = localStorage.getItem("tasks");
-    if (storedTasks) {
-      setTasks(
-        sortTasks(
-          JSON.parse(storedTasks, (key, value) =>
-            key === "createdAt" ? new Date(value) : value
-          )
-        )
-      );
-    }
-  }, []); // ✅ Hook with effect typing (Index: 25)
-
-  // 📌 Typing useEffect  
-  //    - `JSON.parse()` is used with a transformation to convert `createdAt` into Date.  
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const timeout = setTimeout(() => {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }, 300); // Espera 300ms antes de guardar, evitando escrituras excesivas
+    return () => clearTimeout(timeout);
   }, [tasks]);
 
   // 📌 Typing functions in TypeScript  
-  //    - `addTask` takes a string and returns `void` (does not return a value).  
-  const addTask = (title: string) => {
-    const newTask: Task = {
-      id: uuidv4(),
-      title,
-      completed: false,
-      createdAt: new Date(),
-    };
-    setTasks((prev) => sortTasks([...prev, newTask]));
-  };
+  //    - addTask takes a string and returns void (does not return a value).  
+const addTask = (title: string) => {
+  const newTask: Task = { id: uuidv4(), title, completed: false, createdAt: new Date() };
+  setTasks((prev) => {
+    const updatedTasks = [...prev, newTask];
+    return updatedTasks.length > 1 ? sortTasks(updatedTasks) : updatedTasks;
+  });
+};
+
 
   // 📌 Using `map()` on a typed array (`Task[]`)  
   //    - It ensures that `task` always has the structure defined in `Task`.  
@@ -97,9 +91,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // 📌 Using typed states to filter data   
-  const clearTasks = () => {
-    setTasks([]);
-  };
+  const clearTasks = () => setTasks([]);
 
   const editTask = (id: string, newTitle: string) => {
     setTasks((prev) =>
@@ -112,11 +104,14 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // 📌 Using typed states to filter data   
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "completed") return task.completed;
-    if (filter === "pending") return !task.completed;
-    return true;
-  });
+const filterMap: Record<TaskFilter, (task: Task) => boolean> = {
+  all: () => true,
+  completed: (task) => task.completed,
+  pending: (task) => !task.completed,
+};
+
+const filteredTasks = tasks.filter(filterMap[filter]);
+
 
   return (
     <TaskContext.Provider
@@ -136,8 +131,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// 📌 Use of `useContext` in TypeScript  
-//    - It ensures that the context is not `undefined` before using it. 
+// 📌 Use of useContext in TypeScript  
+//    - It ensures that the context is not undefined before using it. 
 export const useTasks = () => {
   const context = useContext(TaskContext);
   if (!context) {
@@ -149,10 +144,10 @@ export const useTasks = () => {
 /*
 🔹 Concepts applied:
 ✅ Type definition for objects (Index: 12)
-✅ Typing lists of data (`Task[]`) (Index: 23)
-✅ Typing props in React with `ReactNode` (Index: 20)
-✅ Using `useState<T>` to define typed states (Index: 25)
+✅ Typing lists of data (Task[]) (Index: 23)
+✅ Typing props in React with ReactNode (Index: 20)
+✅ Using useState<T> to define typed states (Index: 25)
 ✅ Typing parameters in functions (Index: 7)
-✅ Using effects (`useEffect`) with TypeScript (Index: 25)
-✅ Creating context with types (`createContext`) (Index: 19)
-*/
+✅ Using effects (useEffect) with TypeScript (Index: 25)
+✅ Creating context with types (createContext) (Index: 19)
+*/ 
