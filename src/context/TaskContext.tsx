@@ -4,6 +4,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Task, TaskFilter } from "@/types/task";
 import { v4 as uuidv4 } from "uuid";
+import { useSettings } from "@/context/SettingsContext"; // Importar useSettings
+import { translations } from "@/i18n/translations"; // Importar traducciones
 
 /* 📌 Use of TypeScript in Context API  
 - TaskContextType defines the structure of the context.  
@@ -18,6 +20,7 @@ type TaskContextType = {
   editTask: (id: string, newTitle: string) => void;
   filter: TaskFilter; // ✅ Literal types
   setFilter: (filter: TaskFilter) => void;
+  error: string | null;
 };
 
 // 📌 Use of createContext with TypeScript  
@@ -42,6 +45,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     // 📌 Typing states with restricted values  
   //    - TaskFilter only allows "all" | "completed" | "pending", preventing invalid values. 
   const [filter, setFilter] = useState<TaskFilter>("all");
+  const [error, setError] = useState<string | null>(null);
+  const { settings } = useSettings(); 
 
   // 📌 Function to sort tasks  
   //    - Using sort() on a typed array (Task[]).   
@@ -57,19 +62,30 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       localStorage.setItem("tasks", JSON.stringify(tasks));
-    }, 300); // Espera 300ms antes de guardar, evitando escrituras excesivas
+    }, 300);
     return () => clearTimeout(timeout);
   }, [tasks]);
 
   // 📌 Typing functions in TypeScript  
   //    - addTask takes a string and returns void (does not return a value).  
-const addTask = (title: string) => {
-  const newTask: Task = { id: uuidv4(), title, completed: false, createdAt: new Date() };
-  setTasks((prev) => {
-    const updatedTasks = [...prev, newTask];
-    return updatedTasks.length > 1 ? sortTasks(updatedTasks) : updatedTasks;
-  });
-};
+  const addTask = (title: string) => {
+    if (tasks.length >= settings.maxTasks) {
+      const errorMessage = settings.language === 'en' 
+        ? translations.en.taskLimitReached 
+        : translations.es.taskLimitReached;
+      
+      setError(errorMessage);
+      
+      setTimeout(() => setError(null), 3000);
+      return;
+    }
+
+    const newTask: Task = { id: uuidv4(), title, completed: false, createdAt: new Date() };
+    setTasks((prev) => {
+      const updatedTasks = [...prev, newTask];
+      return updatedTasks.length > 1 ? sortTasks(updatedTasks) : updatedTasks;
+    });
+  };
 
 
   // 📌 Using `map()` on a typed array (`Task[]`)  
@@ -124,6 +140,7 @@ const filteredTasks = tasks.filter(filterMap[filter]);
         editTask,
         filter,
         setFilter,
+        error,
       }}
     >
       {children}

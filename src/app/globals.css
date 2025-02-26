@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🎨 Dark Color Palette */
+/* 🎨 Dark Mode (Default) */
 :root {
   --background: #111827; /* Modern dark blue */
   --foreground: #e5e7eb; /* Light text */
@@ -13,21 +13,46 @@
   --success: #10b981; /* Elegant green */
 }
 
+/* 🌞 Light Mode (Usando `data-theme="light"`) */
+[data-theme="light"] {
+  --background: #ffffff; /* White background */
+  --foreground: #111827; /* Dark text */
+  --card-bg: #f3f4f6; /* Light gray card */
+  --border: #d1d5db; /* Soft gray border */
+  --primary: #4f46e5; /* Darker blue */
+  --danger: #dc2626; /* Strong red */
+  --success: #059669; /* Strong green */
+}
+
+html {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: "Inter", sans-serif;
-  @apply transition-colors duration-300;
+}
+
+html, body, .container, .task-card, .button, * {
+  @apply transition-colors duration-300 ease-in-out;
 }
 
 /* 📝 Main container */
 .container {
+  background-color: var(--background);
+  color: var(--foreground);
   @apply max-w-2xl mx-auto px-6 py-10;
 }
 
 /* 📋 Task card styles */
 .task-card {
-  @apply bg-[var(--card-bg)] p-4 rounded-lg shadow-lg text-white transition-all duration-300;
+  background: var(--card-bg);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  @apply p-4 rounded-lg shadow-lg transition-all duration-300;
 }
 
 /* 🔘 General buttons */
@@ -36,15 +61,27 @@ body {
 }
 
 .button-primary {
-  @apply bg-[var(--primary)] text-white hover:bg-indigo-600;
+  background: var(--primary);
+  color: white;
+}
+.button-primary:hover {
+  filter: brightness(90%);
 }
 
 .button-danger {
-  @apply bg-[var(--danger)] text-white hover:bg-red-600;
+  background: var(--danger);
+  color: white;
+}
+.button-danger:hover {
+  filter: brightness(90%);
 }
 
 .button-success {
-  @apply bg-[var(--success)] text-white hover:bg-green-600;
+  background: var(--success);
+  color: white;
+}
+.button-success:hover {
+  filter: brightness(90%);
 }
 
 /* 🎭 Animations */
@@ -54,7 +91,7 @@ body {
     transform: translateY(5px);
   }
   to {
-    opacity: 0.7;
+    opacity: 1;
     transform: translateY(0);
   }
 }
