@@ -74,11 +74,7 @@ export default function TaskForm() {
       </form>
       {(error || isTaskLimitReached) && (
         <div className="mt-2 text-red-500 text-sm animate-fade-in">
-          {isTaskLimitReached 
-            ? (settings.language === 'en' 
-                ? "Task limit reached! Adjust in settings or remove tasks."
-                : "¡Límite de tareas alcanzado! Ajusta en configuración o elimina tareas.")
-            : error}
+          {isTaskLimitReached ? t('taskLimitReachedMessage') : error}
         </div>
       )}
     </div>

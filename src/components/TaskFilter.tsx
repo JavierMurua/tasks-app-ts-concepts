@@ -2,6 +2,8 @@
 "use client";
 import { useTasks } from "@/context/TaskContext";
 
+import { useTranslation } from "@/hooks/useTranslation";
+
 // 📌 4. Explicit type declaration  
 //    - `TaskFilter` is a type imported from "@/types/task", which ensures that `FILTERS`  
 //      only contains valid values according to the type definition.  
@@ -14,6 +16,7 @@ const FILTERS: TaskFilter[] = ["all", "pending", "completed"];
 
 export default function TaskFilter() {
     const { filter, setFilter } = useTasks();
+    const { t } = useTranslation();
 
     return (
         <div className="flex space-x-2">
@@ -28,7 +31,7 @@ export default function TaskFilter() {
                     //    - `onClick` on a button is implicitly associated with `MouseEvent<HTMLButtonElement>`.  
                     onClick={() => setFilter(f)}
                 >
-                    {f.charAt(0).toUpperCase() + f.slice(1)}
+                    {t(`filter_${f}`)}
                 </button>
             ))}
         </div>

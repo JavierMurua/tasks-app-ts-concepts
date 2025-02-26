@@ -6,6 +6,7 @@ import { Task } from "@/types/task";  // 📌 22. Share types between components
 
 import { useTasks } from "@/context/TaskContext";
 import { clsx } from "clsx";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type TaskItemProps = {
   task: Task;  // 📌 19. Why type props in React?
@@ -14,6 +15,7 @@ type TaskItemProps = {
 
 export default function TaskItem({ task }: TaskItemProps) {
   const { toggleTask, deleteTask, editTask } = useTasks();
+  const { t } = useTranslation();
 
   // 📌 3. Static typing in TypeScript
   //    - `useState` automatically infers the state type based on the initial value.
@@ -75,14 +77,14 @@ export default function TaskItem({ task }: TaskItemProps) {
             // 📌 29. Typing the onSubmit event in a form
             //    - `onClick` expects a function with no parameters, which in this case is `handleSaveEdit`.
           >
-            Save
+            {t('save')}
           </button>
         ) : (
           <button
             className="button button-primary"
             onClick={handleEdit}
           >
-            Edit
+            {t('edit')}
           </button>
         )}
 
@@ -90,14 +92,15 @@ export default function TaskItem({ task }: TaskItemProps) {
           className="button button-success"
           onClick={() => toggleTask(task.id)}
         >
-          {task.completed ? "Unmark" : "Complete"}
+          {task.completed ? t('unmark') : t('complete')}
+
         </button>
 
         <button
           className="button button-danger"
           onClick={handleDelete}
         >
-          Delete
+          {t('delete')}
         </button>
       </div>
     </div>
