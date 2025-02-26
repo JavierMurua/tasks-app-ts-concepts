@@ -12,7 +12,7 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="fixed top-0 right-0 h-full w-72 bg-gray-800 text-white shadow-lg z-50 transition-transform transform translate-x-0">
+    <div className="fixed top-0 left-0 h-full w-72 bg-gray-800 text-white shadow-lg z-50 transition-transform transform translate-x-0">
       <div className="flex justify-between items-center p-4 border-b border-gray-700">
         <h2 className="text-lg font-semibold">{t('settings')}</h2>
         <button onClick={onClose} className="text-xl text-gray-400 hover:text-white">
