@@ -2,100 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade {
+    animation: fadeIn 0.3s ease-out;
+  }
+}
+
 /* 🎨 Dark Mode (Default) */
 :root {
-  --background: #111827; /* Modern dark blue */
-  --foreground: #e5e7eb; /* Light text */
-  --card-bg: #1f2937; /* Card background */
-  --border: #374151; /* Borders and lines */
-  --primary: #6366f1; /* Vibrant blue */
-  --danger: #ef4444; /* Soft red */
-  --success: #10b981; /* Elegant green */
+  --background: theme('colors.gray.900'); /* Fondo oscuro */
+  --foreground: theme('colors.gray.100'); /* Texto claro */
+  --card-bg: theme('colors.gray.800'); /* Fondo de tarjetas */
+  --border: theme('colors.gray.700'); /* Bordes */
+  --primary: theme('colors.indigo.500'); /* Azul vibrante */
+  --danger: theme('colors.red.500'); /* Rojo suave */
+  --success: theme('colors.green.500'); /* Verde elegante */
 }
 
 /* 🌞 Light Mode (Usando `data-theme="light"`) */
 [data-theme="light"] {
-  --background: #ffffff; /* White background */
-  --foreground: #111827; /* Dark text */
-  --card-bg: #f3f4f6; /* Light gray card */
-  --border: #d1d5db; /* Soft gray border */
-  --primary: #4f46e5; /* Darker blue */
-  --danger: #dc2626; /* Strong red */
-  --success: #059669; /* Strong green */
+  --background: theme('colors.white'); /* Fondo claro */
+  --foreground: theme('colors.gray.900'); /* Texto oscuro */
+  --card-bg: theme('colors.gray.200'); /* Tarjetas grises */
+  --border: theme('colors.gray.400'); /* Bordes suaves */
+  --primary: theme('colors.indigo.700'); /* Azul oscuro */
+  --danger: theme('colors.red.600'); /* Rojo fuerte */
+  --success: theme('colors.green.600'); /* Verde fuerte */
 }
 
-html {
-  background-color: var(--background);
-  color: var(--foreground);
-}
-
-
-body {
+/* 🖌️ Estilos globales */
+html, body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: "Inter", sans-serif;
-}
-
-html, body, .container, .task-card, .button, * {
   @apply transition-colors duration-300 ease-in-out;
 }
 
-/* 📝 Main container */
+/* 📌 Contenedor principal */
 .container {
-  background-color: var(--background);
-  color: var(--foreground);
   @apply max-w-2xl mx-auto px-6 py-10;
 }
 
-/* 📋 Task card styles */
+/* 📋 Tarjetas de tarea */
 .task-card {
   background: var(--card-bg);
-  color: var(--foreground);
   border: 1px solid var(--border);
   @apply p-4 rounded-lg shadow-lg transition-all duration-300;
 }
 
-/* 🔘 General buttons */
+/* 🔘 Botones */
 .button {
-  @apply px-4 py-2 rounded-md font-medium transition-all duration-300;
+  @apply px-4 py-2 rounded-md font-medium transition-all duration-300 text-white;
 }
 
 .button-primary {
   background: var(--primary);
-  color: white;
-}
-.button-primary:hover {
-  filter: brightness(90%);
 }
 
 .button-danger {
   background: var(--danger);
-  color: white;
-}
-.button-danger:hover {
-  filter: brightness(90%);
 }
 
 .button-success {
   background: var(--success);
-  color: white;
 }
-.button-success:hover {
+
+/* ✨ Efecto hover para todos los botones */
+.button:hover {
   filter: brightness(90%);
 }
 
-/* 🎭 Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@layer components {
+  .menu-item {
+    @apply flex items-center space-x-3 text-lg w-full text-left p-2 rounded-lg transition-all duration-300 hover:bg-[var(--card-bg)] cursor-pointer;
+
   }
 }
 
+/* 🎭 Animaciones */
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+  @apply animate-fade;
 }

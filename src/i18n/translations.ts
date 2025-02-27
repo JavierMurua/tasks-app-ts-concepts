@@ -20,7 +20,8 @@ export const translations = {
       menu: "Menu",
       portfolio: "Portfolio",
       taskLimitReached: 'You\'ve reached the maximum number of tasks',
-      taskLimitReachedMessage: "¡Límite de tareas alcanzado! Ajusta en configuración o elimina tareas."
+      taskLimitReachedMessage: "Task limit reached! Adjust in settings or delete tasks.",
+      close: "Close"
     },
     es: {
       addTask: "Añadir Tarea",
@@ -42,7 +43,8 @@ export const translations = {
       menu: "Menú",
       portfolio: "Portafolio",
       taskLimitReached: 'Has alcanzado el número máximo de tareas',
-      taskLimitReachedMessage: "¡Límite de tareas alcanzado! Ajusta en configuración o elimina tareas."
+      taskLimitReachedMessage: "¡Límite de tareas alcanzado! Ajusta en configuración o elimina tareas.",
+      close: "Cerrar"
     }
   };
   
