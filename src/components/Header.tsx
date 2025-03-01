@@ -37,7 +37,8 @@ export default function Header() {
   }, [activePanel]);
 
   return (
-    <header className="bg-[var(--background)] text-[var(--foreground)] py-4 px-6 shadow-md flex justify-between items-center animate-fade-in">
+    <header className="py-4 px-6 shadow-md flex justify-between items-center animate-fade-in" style={{ background: "var(--header-gradient)" }}
+    >
       <h1 className="text-2xl font-bold tracking-wide">📝 Task Manager</h1>
 
       <div className="relative">
@@ -53,8 +54,8 @@ export default function Header() {
           <div
             ref={menuRef}
             className={clsx(
-              "absolute top-0 right-0 -mt-4  -mr-6 h-screen w-64 bg-[var(--background)] text-[var(--foreground)] z-50 shadow-xl transition-transform",
-              "transform translate-x-0 ease-in-out duration-300"
+              "absolute top-0 right-0 -mt-4 -mr-6 h-screen w-64 bg-[var(--background)] text-[var(--foreground)] z-50 shadow-xl transition-transform",
+              "transform translate-x-0 ease-in-out duration-300 flex flex-col justify-between"
             )}
           >
             <div className="flex justify-between items-center p-4">
@@ -67,13 +68,8 @@ export default function Header() {
                 &#10005;
               </button>
             </div>
-            <ul className="p-4 space-y-2">
-              <li>
-                <button onClick={toggleSettings} className="menu-item">
-                  <FaCog size={24} />
-                  <span>{t("settings")}</span>
-                </button>
-              </li>
+
+            <ul className="p-4 space-y-2 flex-1">
               <li>
                 <a href="https://github.com/tuusuario" target="_blank" rel="noopener noreferrer" className="menu-item">
                   <FaGithub size={24} />
@@ -93,8 +89,16 @@ export default function Header() {
                 </a>
               </li>
             </ul>
+
+            <div className="p-4 border-t border-[var(--border)]">
+              <button onClick={toggleSettings} className="menu-item w-full flex items-center">
+                <FaCog size={24} />
+                <span>{t("settings")}</span>
+              </button>
+            </div>
           </div>
         )}
+
       </div>
 
       {activePanel === "settings" && <SettingsPanel onClose={toggleSettings} />}

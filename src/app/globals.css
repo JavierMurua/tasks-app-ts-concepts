@@ -28,6 +28,7 @@
   --primary: theme('colors.indigo.500'); /* Azul vibrante */
   --danger: theme('colors.red.500'); /* Rojo suave */
   --success: theme('colors.green.500'); /* Verde elegante */
+  --header-gradient: linear-gradient(135deg, theme('colors.gray.900') 0%, theme('colors.blue.900') 100%);
 }
 
 /* 🌞 Light Mode (Usando `data-theme="light"`) */
@@ -39,6 +40,8 @@
   --primary: theme('colors.indigo.700'); /* Azul oscuro */
   --danger: theme('colors.red.600'); /* Rojo fuerte */
   --success: theme('colors.green.600'); /* Verde fuerte */
+  --header-gradient: linear-gradient(135deg, theme('colors.gray.100') 0%, theme('colors.yellow.100') 100%);
+
 }
 
 /* 🖌️ Estilos globales */
