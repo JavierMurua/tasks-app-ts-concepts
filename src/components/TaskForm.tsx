@@ -41,7 +41,7 @@ export default function TaskForm() {
     
     // 📌 10. Advantages of typing in TypeScript (autocompletion within functions)
     //    - `title.trim()` ensures `title` is always a string, preventing errors in `addTask(title)`.
-    if (!title.trim()) return;
+    if (isTaskLimitReached || !title.trim()) return;
 
     addTask(title.trim());
 
@@ -53,7 +53,7 @@ export default function TaskForm() {
   return (
     <div className="mb-6">
       <form
-        className="flex flex-col sm:flex-row gap-4 mt-8"
+        className="flex flex-wrap gap-4 justify-center items-center w-full"
         onSubmit={handleSubmit}  // 📌 31. Typing of the onSubmit event in a form
       >
         <input
@@ -62,18 +62,23 @@ export default function TaskForm() {
           value={title}
           onChange={handleChange} // 📌 28. Typing of the onChange event in a "text" type <input>
           disabled={isTaskLimitReached}
-          className="flex-grow p-2 border-var(--border) rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-950"
+          className="flex-grow p-2 rounded-md border border-var(--border)
+          focus:outline-none focus:ring-2 focus:ring-blue-500
+          text-gray-950 min-w-[200px] max-w-[600px]"
+          style={{ flex: "1 1 250px" }} // Min 250px, se expande hasta llenar el espacio disponible
         />
         <button
           type="submit"
           disabled={isTaskLimitReached}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          aria-disabled={isTaskLimitReached}
+          aria-label={t('addTask')}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 min-w-[120px]"
         >
           {t('addTask')}
         </button>
       </form>
       {(error || isTaskLimitReached) && (
-        <div className="mt-2 text-red-500 text-sm animate-fade-in">
+        <div className="mt-2 text-red-500 text-sm animate-fade-in text-center">
           {isTaskLimitReached ? t('taskLimitReachedMessage') : error}
         </div>
       )}
