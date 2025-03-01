@@ -48,12 +48,12 @@ export default function TaskItem({ task }: TaskItemProps) {
   return (
     <div
       className={clsx(
-        "task-card animate-fade-in flex justify-between items-center",
+        "task-card animate-fade-in flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-4",
         task.completed && "opacity-70",
         isDeleting && "scale-90 opacity-0"
       )}
     >
-      <div>
+      <div className="w-full sm:flex-grow">
         {isEditing ? (
           <input
             type="text"
@@ -65,9 +65,12 @@ export default function TaskItem({ task }: TaskItemProps) {
               color: "var(--foreground)",
               borderColor: "var(--border)",
             }}
+            autoFocus
           />
         ) : (
-          <h3 className={clsx("text-lg font-semibold", task.completed && "text-gray-400")}>
+          <h3 className={clsx("text-lg font-semibold break-words", task.completed && "text-gray-400")}
+          tabIndex={0}
+          >
             {task.title}
           </h3>
         )}
@@ -76,10 +79,10 @@ export default function TaskItem({ task }: TaskItemProps) {
         {/* - `createdAt` is a `Date` object, and it is converted to `string` using `toLocaleString()`. */}
       </div>
 
-      <div className="flex space-x-2">
+      <div className="grid grid-cols-2 sm:flex gap-2 w-full sm:w-auto">
         {isEditing ? (
           <button
-            className="button button-primary"
+            className="button button-primary w-full sm:w-auto"
             onClick={handleSaveEdit}  
             // 📌 29. Typing the onSubmit event in a form
             //    - `onClick` expects a function with no parameters, which in this case is `handleSaveEdit`.
@@ -88,7 +91,7 @@ export default function TaskItem({ task }: TaskItemProps) {
           </button>
         ) : (
           <button
-            className="button button-primary"
+            className="button button-primary w-full sm:w-auto"
             onClick={handleEdit}
             aria-label={t("edit")}
           >
@@ -97,7 +100,7 @@ export default function TaskItem({ task }: TaskItemProps) {
         )}
 
         <button
-          className="button button-success"
+          className="button button-success w-full sm:w-auto"
           onClick={() => toggleTask(task.id)}
           aria-label={task.completed ? t("unmark") : t("complete")}
         >
@@ -105,7 +108,7 @@ export default function TaskItem({ task }: TaskItemProps) {
         </button>
 
         <button
-          className="button button-danger"
+          className="button button-danger col-span-2 sm:col-span-1 w-full sm:w-auto"
           onClick={handleDelete}
           aria-label={t("delete")}
           >
