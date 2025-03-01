@@ -1,6 +1,6 @@
 // src\components\TaskItem.tsx
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Task } from "@/types/task";  // 📌 22. Share types between components
 //    - The `Task` type exported from `task.ts` is reused to correctly type the task data.
 
@@ -23,25 +23,27 @@ export default function TaskItem({ task }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);    // Infers that it is `boolean`
   const [editedTitle, setEditedTitle] = useState(task.title);  // Infers that it is `string`
 
+  const formattedDate = new Date(task.createdAt).toLocaleString();
+
   // 📌 27. Typing the onChange event in an <input>
   //    - The `onChange` event in `setEditedTitle(e.target.value)` expects a `string`.
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     setIsDeleting(true);
     setTimeout(() => deleteTask(task.id), 300);
-  };
+  }, [task.id, deleteTask]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = useCallback(() => {
     if (editedTitle.trim() !== "") {
       editTask(task.id, editedTitle);  // 📌 5. Robust typing system in TypeScript
       //    - Ensures that `editTask` always receives a `string`, preventing unexpected errors.
 
       setIsEditing(false);
     }
-  };
+  }, [task.id, editedTitle, editTask]);
 
   return (
     <div
@@ -57,14 +59,19 @@ export default function TaskItem({ task }: TaskItemProps) {
             type="text"
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
-            className="bg-gray-700 text-white px-2 py-1 rounded w-full border text-lg"
+            className="px-2 py-1 rounded w-full border text-lg"
+            style={{
+              background: "var(--background)",
+              color: "var(--foreground)",
+              borderColor: "var(--border)",
+            }}
           />
         ) : (
           <h3 className={clsx("text-lg font-semibold", task.completed && "text-gray-400")}>
             {task.title}
           </h3>
         )}
-        <p className="text-sm text-gray-300">{task.createdAt.toLocaleString()}</p> 
+        <p className="text-sm text-gray-400">{formattedDate}</p> 
         {/* 📌 6. Type conversion */}
         {/* - `createdAt` is a `Date` object, and it is converted to `string` using `toLocaleString()`. */}
       </div>
@@ -83,6 +90,7 @@ export default function TaskItem({ task }: TaskItemProps) {
           <button
             className="button button-primary"
             onClick={handleEdit}
+            aria-label={t("edit")}
           >
             {t('edit')}
           </button>
@@ -91,15 +99,16 @@ export default function TaskItem({ task }: TaskItemProps) {
         <button
           className="button button-success"
           onClick={() => toggleTask(task.id)}
+          aria-label={task.completed ? t("unmark") : t("complete")}
         >
           {task.completed ? t('unmark') : t('complete')}
-
         </button>
 
         <button
           className="button button-danger"
           onClick={handleDelete}
-        >
+          aria-label={t("delete")}
+          >
           {t('delete')}
         </button>
       </div>
