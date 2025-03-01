@@ -14,7 +14,7 @@ export default function TaskList() {
 
   return (
     <div className="mt-8">
-      <div className="flex justify-between items-center mb-4">
+      <div className="grid grid-cols-2 sm:flex gap-2 mb-6 w-full sm:w-auto">
         <TaskFilter />
         <ClearTaskButton />
       </div>
