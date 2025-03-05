@@ -39,8 +39,8 @@ export default function TaskForm() {
       return; // No hacer nada si se alcanzó el límite
     }
     
-    // 📌 10. Advantages of typing in TypeScript (autocompletion within functions)
-    //    - `title.trim()` ensures `title` is always a string, preventing errors in `addTask(title)`.
+    // 📌 10. Advantages of typing in TypeScript (type safety and autocompletion)
+    //    - Using `useState<string>("")` and `FormEvent<HTMLFormElement>` ensures type safety and provides better autocompletion.
     if (isTaskLimitReached || !title.trim()) return;
 
     addTask(title.trim());

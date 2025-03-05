@@ -19,7 +19,6 @@
   }
 }
 
-/* 🎨 Dark Mode (Default) */
 :root {
   --background: theme('colors.gray.900'); /* Fondo oscuro */
   --foreground: theme('colors.gray.100'); /* Texto claro */
@@ -31,7 +30,6 @@
   --header-gradient: linear-gradient(135deg, theme('colors.gray.900') 0%, theme('colors.blue.900') 100%);
 }
 
-/* 🌞 Light Mode (Usando `data-theme="light"`) */
 [data-theme="light"] {
   --background: theme('colors.white'); /* Fondo claro */
   --foreground: theme('colors.gray.900'); /* Texto oscuro */
@@ -44,7 +42,6 @@
 
 }
 
-/* 🖌️ Estilos globales */
 html, body {
   background-color: var(--background);
   color: var(--foreground);
@@ -52,19 +49,16 @@ html, body {
   @apply transition-colors duration-300 ease-in-out;
 }
 
-/* 📌 Contenedor principal */
 .container {
   @apply max-w-2xl mx-auto px-6 py-10;
 }
 
-/* 📋 Tarjetas de tarea */
 .task-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   @apply p-4 rounded-lg shadow-lg transition-all duration-300;
 }
 
-/* 🔘 Botones */
 .button {
   @apply px-4 py-2 rounded-md font-medium transition-all duration-300 text-white;
 }
@@ -81,7 +75,6 @@ html, body {
   background: var(--success);
 }
 
-/* ✨ Efecto hover para todos los botones */
 .button:hover {
   filter: brightness(90%);
 }
@@ -93,7 +86,6 @@ html, body {
   }
 }
 
-/* 🎭 Animaciones */
 .animate-fade-in {
   @apply animate-fade;
 }

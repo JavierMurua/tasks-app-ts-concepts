@@ -48,6 +48,8 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
         <label className="flex justify-between items-center">
         <span>{t("darkMode")}</span>
         <button
+        // 📌 13. Modifying typed objects in TypeScript  
+        //    - Ensures that `updateSetting` only accepts valid keys and values from the `settings` object, maintaining strong type safety.
           onClick={() => updateSetting("darkMode", !settings.darkMode)}
           className={clsx(
             "relative w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300",

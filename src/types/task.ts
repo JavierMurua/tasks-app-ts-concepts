@@ -1,6 +1,6 @@
 // src\types\task.ts
-// 📌 Definition of types for objects  
-//    → `type` is used to structure data safely (Typing of data lists) 
+// 📌 Type definition for task objects  
+//    → Ensures consistent and safe data handling for tasks in the application
 export type Task = {
     id: string;
     title: string;
@@ -8,6 +8,6 @@ export type Task = {
     createdAt: Date;
 };
 
-// 📌 Literal types  
-//    → `TaskFilter` only accepts specific values: "all", "completed" or "pending"  
+// 📌 Literal types for task filtering  
+//    → Enables safe and consistent task filtering by allowing only predefined filter values ("all", "completed", "pending")
 export type TaskFilter = "all" | "completed" | "pending";

@@ -84,8 +84,6 @@ export default function TaskItem({ task }: TaskItemProps) {
           <button
             className="button button-primary w-full sm:w-auto"
             onClick={handleSaveEdit}  
-            // 📌 29. Typing the onSubmit event in a form
-            //    - `onClick` expects a function with no parameters, which in this case is `handleSaveEdit`.
           >
             {t('save')}
           </button>

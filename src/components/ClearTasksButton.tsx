@@ -9,6 +9,7 @@ export default function ClearTasksButton() {
             
       // 📌 31. Summary of event types in React with TypeScript  
       //    - `onClick` in a button is implicitly associated with `MouseEvent<HTMLButtonElement>`.
+      //    - This ensures type safety when handling click events on the "Clear All" button, which is crucial for confirming task deletion.
       onClick={() => {
         if (confirm("Are you sure you want to clear all tasks?")) {
           clearTasks();

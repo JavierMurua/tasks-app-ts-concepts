@@ -28,7 +28,8 @@ export default function TaskFilter() {
                     }`}
                     
                     // 📌 31. Summary of event types in React with TypeScript  
-                    //    - `onClick` on a button is implicitly associated with `MouseEvent<HTMLButtonElement>`.  
+                    //    - In React with TypeScript, `onClick` on a button is implicitly associated with `MouseEvent<HTMLButtonElement>`.  
+                    //      This ensures type safety for event handlers, which helps prevent errors and improves the robustness of the application.  
                     onClick={() => setFilter(f)}
                 >
                     {t(`filter_${f}`)}

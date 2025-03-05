@@ -15,7 +15,6 @@ export default function Header() {
   const toggleMenu = () => setActivePanel(activePanel === "menu" ? null : "menu");
   const toggleSettings = () => setActivePanel(activePanel === "settings" ? null : "settings");
 
-  // Cerrar menú al hacer clic fuera
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
